@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function redirect(address) {
+            window.location.replace(address)
+        }
+
+        function showQueue() {
+            
+        }
+
+        function showRegister() {
+            document.currentScript.outerHTML = `
+            <div class="container">
+                <h1>Chose a name</h1>
+                <form id="name-form">
+                    <label for="name_input" class="form-label">name</label>
+                    <input type="text" id="name_input" name="name" required>
+                    <button type="submit">register</button>
+                </form>
+                <div id="result" class="mt-3"></div>
+            </div>
+            `;
+            document.getElementById('name-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                // redirect("https://www.google.com")
+                const formData = new FormData(event.target);
+                console.log(formData.get("name"))
+                fetch('/name', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.name == "") {
+                            document.getElementById('result').textContent = "name taken";
+                        } else {
+                            localStorage.setItem("name", data.name)
+                            redirect("https://www.google.datacom")
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        }
+
+        if (localStorage.getItem("name") === null) {
+            showRegister();
+        }
+    </script>
+    
+    <script>
+        
+    </script>
+</body>
+</html>
