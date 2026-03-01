@@ -51,7 +51,7 @@ class Match:
         self.hands[index] = hand
         
     def apply(self):
-        if not self.applied:
+        if not self.applied and self.done():
             self.applied = True
             self.players[0].update(self.players[1], self.outcome())
         
@@ -80,6 +80,6 @@ class Match:
             self.timestamp.isoformat(), 
             str(self.players[0]), 
             str(self.players[1]), 
-            str(self.hands[0].name), 
-            str(self.hands[1].name)
+            self.hands[0].name, 
+            self.hands[1].name
         ])
