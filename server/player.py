@@ -3,7 +3,6 @@ class Player:
         self.name: str = name
         self.rating: float = 1200.0
         self.match: str = ""
-        self.queued: bool = False
 
     def _expected(self, other: Player) -> float:
         magic_number = 400.0

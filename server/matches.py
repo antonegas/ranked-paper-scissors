@@ -5,10 +5,13 @@ from os import path
 class Matches:
     def __init__(self):
         self.matches: list[Match] = list()
+        self.active: dict[str, Match] = dict()
+        self.pointer: int = 0
         self.players: Players = Players()
 
     def add(self, _match: Match):
         self.matches.append(_match)
+        self.active[_match.match_id] = _match
 
     def save(self, path: str = path.join(path.dirname(__file__), "matches.txt")):
         for _match in self.matches:
@@ -20,7 +23,9 @@ class Matches:
 
         for line in open(path, "r").readlines():
             _match = Match.deserialize(line, matches.players)
-            matches.add(_match)
+            matches.matches.append(_match)
             _match.apply()
+
+        matches.pointer = len(matches.matches)
 
         return matches
